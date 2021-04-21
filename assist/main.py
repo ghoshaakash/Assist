@@ -161,12 +161,13 @@ def WeatherDetect(state):
         if(state==0):
             owm = OWM(token)  
             mgr = owm.weather_manager()
-
+            print("Weather object created")
 
             # Search for current weather in London (Great Britain) and get details
             observation = mgr.weather_at_place(loc)
+            print("observation fetched")
             w = observation.weather
-
+            print("weather found")
             print(w.detailed_status)         # 'clouds'
             print(w.wind())                  # {'speed': 4.6, 'deg': 330}
             print(w.humidity)                # 87
