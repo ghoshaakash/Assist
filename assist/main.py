@@ -150,8 +150,8 @@ def WeatherDetect(state):
             loc=fileRead("assist\PvtAsset\Location.txt")
         except:
             sound("Hey looks like there is a little problem with the location file. Type in your location to continue")
-            str=input("Enter location: ")
-            fileWrite("assist\PvtAsset\Location.txt",str)
+            LocIn=input("Enter location: ")
+            fileWrite("assist\PvtAsset\Location.txt",LocIn)
             loc=fileRead("assist\PvtAsset\Location.txt")
         print("Location is "+loc)
         #here is the actual weather detection code
@@ -159,8 +159,11 @@ def WeatherDetect(state):
         print("Open Weather token is "+token)
         print("Location is loc")
         if(state==0):
-            owm = OWM(token)  
+            owm = OWM(token)
             mgr = owm.weather_manager()
+            observation = mgr.weather_at_place(loc)
+            w = observation.weather
+
             print("Weather object created")
 
             # Search for current weather in London (Great Britain) and get details
@@ -174,7 +177,9 @@ def WeatherDetect(state):
             print(w.temperature('celsius'))  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
             print(w.rain)
             print(w.clouds)                  # 75
-            WeatherReport="The weather is "+w.detailed_status
+            Tfeels=str(w.temperature("celsius")['feels_like'])
+            WeatherReport="The weather is "+w.detailed_status+". It feels like "+Tfeels+" degrees celcius"
+            print("trying to print the temps")
             print(WeatherReport)
             sound(WeatherReport)
         if(state==1):
