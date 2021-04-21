@@ -25,7 +25,7 @@ from pyowm import OWM
 from pyowm.utils import config
 from pyowm.utils import timestamps
 from pyowm.utils import timestamps
-
+import random
 
 def fileRead(File):
     f = open(File, "r")
@@ -146,6 +146,7 @@ def STTtest():
 
 def WeatherDetect(state):
     try:
+        Tfeels=0
         try:
             loc=fileRead("assist\PvtAsset\Location.txt")
         except:
@@ -177,8 +178,9 @@ def WeatherDetect(state):
             print(w.temperature('celsius'))  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
             print(w.rain)
             print(w.clouds)                  # 75
-            Tfeels=str(w.temperature("celsius")['feels_like'])
-            WeatherReport="The weather is "+w.detailed_status+". It feels like "+Tfeels+" degrees celcius"
+            TfeelsStr=str(w.temperature("celsius")['feels_like'])
+            Tfeels=w.temperature("celsius")['feels_like']
+            WeatherReport="The weather is "+w.detailed_status+". It feels like "+TfeelsStr+" degrees celcius"
             print("trying to print the temps")
             print(WeatherReport)
             sound(WeatherReport)
@@ -193,7 +195,24 @@ def WeatherDetect(state):
             for weather in daily_forecast:
                 print(weather.get_reference_time('iso'))
                 print(weather.get_status())
-
+        if(Tfeels<13):
+            options=["freezing","frigid","numbing cold","frosty"]
+            comment="It's "+random.choice(options)+" outside. Better take a jacket if you are going out."
+        elif(Tfeels<18):
+            comment="It's cold outside. You should definitely dress warm."
+        elif(Tfeels<20):
+            options=["Pretty cool weather we are experiencing. You should definitely enjoy it","Cool weather you have there. "]
+            comment=random.choice(options)
+        elif(Tfeels<29):
+            options=["It's a nice weather to get your work done.", "It's a nice weather. You should definitely enjoy it"]
+            comment=random.choice(options)
+        elif(Tfeels<34):
+            options=["Pretty hot huh. Maybe try an icecream?", "It's hot outside. Remember to stay hydrated","It's pretty hot outside"]
+            comment=random.choice(options)
+        else:
+            options=["It's scorching outside. If I were you I would search for an air con.","It's burning hot outside. Don't forget  to hydrate yourself.","I reccomend you put me in a sufficently cool room. This heat has the ability to blast my cores off"]
+            comment=random.choice(options)
+        sound(comment)
         #Code end
     except Exception as e: # work on python 3.x
         print('Weather fetch error '+ str(e))
