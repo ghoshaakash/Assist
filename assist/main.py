@@ -251,7 +251,7 @@ while True:
         elif res[0]=="sleep":
             del res
             break
-        elif any(x for x in res if x=="weather") and (any(x for x in res if x=="tell") or any(x for x in res if x=="what")):
+        elif any(x for x in res if x=="weather") and (any(x for x in res if x=="tell") or any(x for x in res if x=="what") or any(x for x in res if x=="how")):
             state=0
             if any(x for x in res if x=="tomorrow") or any(x for x in res if x=="tomorrow's"):
                 state=1
