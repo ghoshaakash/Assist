@@ -26,6 +26,7 @@ from pyowm.utils import config
 from pyowm.utils import timestamps
 from pyowm.utils import timestamps
 import random
+import datetime
 
 def fileRead(File):
     f = open(File, "r")
@@ -220,8 +221,6 @@ def WeatherDetect(state):
 
 
 
-
-
 #Main loopb
 while True:
     try:
@@ -230,7 +229,9 @@ while True:
         if state:
             continue
         print("Hot word Detected")
-        sound("Hey! What Can I do for you?")
+        options1=["Hey!","Hi!","","Hello!","Wassup!"]
+        options2=["What can I do for you?","What do you need me for?","How can I help you?","How can I assist you?"]
+        sound(random.choice(options1)+random.choice(options2))
         command=speech()
         print("Command recived is  "+command)
         res = command.split()
